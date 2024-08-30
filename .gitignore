@@ -32,7 +32,7 @@ scrapeme_client/
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
 # .vscode/
-scrapeme_client/
+
 # Flutter/Dart/Pub related
 scrapeme_client/**/doc/api/
 scrapeme_client/**/ios/Flutter/.last_build_id
