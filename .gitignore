@@ -21,13 +21,13 @@ scrapeme_client/.buildlog/
 scrapeme_client/.history
 scrapeme_client/.svn/
 scrapeme_client/migrate_working_dir/
-scrapeme_client/
+
 # IntelliJ related
 scrapeme_client/*.iml
 scrapeme_client/*.ipr
 scrapeme_client/*.iws
 scrapeme_client/.idea/
-scrapeme_client/
+
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
@@ -42,13 +42,13 @@ scrapeme_client/.flutter-plugins-dependencies
 scrapeme_client/.pub-cache/
 scrapeme_client/.pub/
 scrapeme_client/build/
-scrapeme_client/
+
 scrapeme_client/# Symbolication related
 scrapeme_client/app.*.symbols
-scrapeme_client/
+
 # Obfuscation related
 scrapeme_client/app.*.map.json
-scrapeme_client/
+
 # Android Studio will place build artifacts here
 scrapeme_client/android/app/debug
 scrapeme_client/android/app/profile
