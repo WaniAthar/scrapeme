@@ -15,6 +15,7 @@ class SignupView(APIView):
     authentication_classes = []
 
     def post(self, request):
+            print(request.data)
             serializer = SignUpSerializer(data=request.data)
             if serializer.is_valid():
                  try:  
@@ -22,9 +23,11 @@ class SignupView(APIView):
                     refresh = RefreshToken.for_user(user)
                     access = str(refresh.access_token)
                     refresh =str(refresh)
-                    return Response({'message': 'Successfully signed up','access':access,'refresh':refresh}, status=status.HTTP_201_CREATED)
+                    return Response({'success': True,'access':access,'refresh':refresh}, status=status.HTTP_201_CREATED)
                  except Exception as e:
+                        print(e)
                         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            print(serializer.errors)
             return Response({'errors':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
    
 class ProfileView(APIView):
