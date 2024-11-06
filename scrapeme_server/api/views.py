@@ -4,7 +4,7 @@ from rest_framework import permissions
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serialisers import  SignUpSerializer, UserSerializer
+from .serializers import  SignUpSerializer, UserSerializer 
 from rest_framework import status
 
 
@@ -47,12 +47,7 @@ class UserLogoutView(APIView):
         try:
             refresh_token = RefreshToken(request.data.get('refresh'))
             refresh_token.blacklist()
-            return Response({'message': 'Successfully logged out'})
+            return Response({'message': 'Successfully logged out'}, status=status.HTTP_200_OK)
         except Exception as e:
                 return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
       
-
-
-
-
-

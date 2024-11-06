@@ -4,18 +4,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scrapeme/controllers/controllers.dart';
 import 'package:scrapeme/routes/routes.dart';
+import 'package:scrapeme/widgets/toast_notification.dart';
 import 'package:scrapeme/widgets/widgets.dart';
 
 import '../constants/constants.dart';
 
 class LoginWidget extends ConsumerWidget {
-  const LoginWidget({super.key});
+  LoginWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final emailController = ref.watch(emailControllerProvider);
-    final passwordController = ref.watch(passwordControllerProvider);
-
+    final loginController = ref.watch(loginControllerProvider);
     return Container(
       width: 450,
       decoration: BoxDecoration(
@@ -37,7 +36,15 @@ class LoginWidget extends ConsumerWidget {
         ),
         Container(
           margin: const EdgeInsets.only(top: 10, right: 40, left: 40),
-          child: const GoogleLogin(),
+          child: GoogleLogin(onTap: () async {
+            ref.read(authProvider.notifier).handleGoogleSignIn();
+            if (ref.watch(authProvider).isAuthenticated) {
+              Navigator.of(context).pushReplacementNamed(Routes.home);
+              CustomToast.success("Success!", "You are now logged in");
+            } else {
+              CustomToast.error("Error!", "Something went wrong");
+            }
+          }),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 10),
@@ -50,57 +57,89 @@ class LoginWidget extends ConsumerWidget {
             ),
           ),
         ),
-        Container(
-          margin: const EdgeInsets.only(top: 10, right: 40, left: 40),
-          child: InputField(
-            key: ref.read(loginFormKeyProvider),
-            hintText: "yourname@yourCompany.com",
-            validator: (value) => validateEmail(value),
-            controller: emailController,
-            keyboardType: TextInputType.emailAddress,
-            onChanged: (value) {
-              debugPrint("value: $value");
-              debugPrint("controller: ${emailController.text}");
-            },
-            onFieldSubmitted: (value) => validateEmail(value),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 10, right: 40, left: 40),
-          child: InputField(
-            hintText: "Password",
-            isPassword: true,
-            validator: (value) => validatePassword(value),
-            controller: passwordController,
-            keyboardType: TextInputType.visiblePassword,
-            onChanged: (value) {
-              debugPrint("value: $value");
-              debugPrint("controller: ${passwordController.text}");
-            },
-            onFieldSubmitted: (value) => validatePassword(value),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 10, right: 40, left: 40),
-          child: InkWell(
-            onTap: () {
-              // ref.read(loginProvider.notifier).state = true;
-            },
-            child: Container(
-              height: 50,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colours.primaryColor,
-                borderRadius: BorderRadius.circular(12),
+        Form(
+          key: loginController.loginFormKey,
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 10, right: 40, left: 40),
+                child: InputField(
+                  hintText: "yourname@yourCompany.com",
+                  validator: (value) => validateEmail(value),
+                  controller: loginController.emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  onChanged: (value) {
+                    debugPrint("value: $value");
+                    debugPrint(
+                        "controller: ${loginController.emailController.text}");
+                  },
+                  onFieldSubmitted: (value) => validateEmail(value),
+                ),
               ),
-              child: Center(
-                child: Text("Continue with email",
-                    style: GoogleFonts.inter(
-                        color: Colours.white, fontWeight: FontWeight.bold)),
+              Container(
+                margin: const EdgeInsets.only(top: 10, right: 40, left: 40),
+                child: InputField(
+                  hintText: "Password",
+                  isPassword: true,
+                  maxLines: 1,
+                  validator: (value) => validatePassword(value),
+                  controller: loginController.passwordController,
+                  keyboardType: TextInputType.visiblePassword,
+                  onChanged: (value) {
+                    debugPrint("value: $value");
+                    debugPrint(
+                        "controller: ${loginController.passwordController.text}");
+                  },
+                  onFieldSubmitted: (value) => validatePassword(value),
+                ),
               ),
-            ),
+            ],
           ),
         ),
+        ref.watch(authProvider).isLoginLoading
+            ? Center(
+                child: Container(
+                margin: const EdgeInsets.only(top: 10, right: 40, left: 40),
+                child: const CircularProgressIndicator(
+                  color: Colours.primaryColor,
+                ),
+              ))
+            : Container(
+                margin: const EdgeInsets.only(top: 10, right: 40, left: 40),
+                child: InkWell(
+                  onTap: () async {
+                    if (loginController.loginFormKey.currentState?.validate() ??
+                        false) {
+                      loginController.loginFormKey.currentState?.save();
+                      await ref.read(authProvider.notifier).login();
+                      if (ref.watch(authProvider).isAuthenticated) {
+                        if (context.mounted) {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              Routes.home, (route) => false);
+                        }
+                        CustomToast.success(
+                            "Success!", "You are now logged in");
+                      }
+                    } else {
+                      CustomToast.error("Error!", "Please fill all the fields");
+                    }
+                  },
+                  child: Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colours.primaryColor,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Center(
+                      child: Text("Continue with email",
+                          style: GoogleFonts.inter(
+                              color: Colours.white,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                ),
+              ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text.rich(TextSpan(
@@ -145,14 +184,6 @@ class LoginWidget extends ConsumerWidget {
     if (value == null || value.isEmpty) {
       return 'Password is required';
     }
-    // if (value.length < 8) {
-    //   return 'Password must be at least 8 characters';
-    // }
-    // if (!RegExp(
-    //         r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})')
-    //     .hasMatch(value)) {
-    //   return 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character';
-    // }
     return null;
   }
 }

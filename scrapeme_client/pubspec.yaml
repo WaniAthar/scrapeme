@@ -24,7 +24,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_web_plugins:
+    sdk: flutter
   cupertino_icons: ^1.0.6
   google_fonts: ^6.2.1
   widget_and_text_animator: ^1.1.5
@@ -34,10 +35,17 @@ dependencies:
   http: ^1.2.2
   shared_preferences: ^2.3.2
   jwt_decoder: ^2.0.1
+  google_sign_in: ^6.2.1
+  toastification: ^2.2.0
+  logger: ^2.4.0
+  popover: ^0.3.0+1
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  hive_generator: ^2.0.1
 
 
   flutter_lints: ^3.0.0

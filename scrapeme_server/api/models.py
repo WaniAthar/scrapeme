@@ -27,11 +27,11 @@ class CustomUserManager(UserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True, default='', verbose_name='Email Address')
     name = models.CharField(max_length=255, default='', verbose_name='Name')
+    plan = models.CharField(max_length=255, choices=(('free', 'Free'), ('pro', 'Pro')), default='free', verbose_name='Plan')
     nickname = models.CharField(max_length=255, default='', verbose_name='Nickname', unique=True)
     is_active = models.BooleanField(default=True, verbose_name='Active')
     is_superuser = models.BooleanField(default=False, verbose_name='Super User')
     is_staff = models.BooleanField(default=False, verbose_name='Staff')
-
     date_joined = models.DateTimeField(default=timezone.now, verbose_name='Date Joined')
     last_login = models.DateTimeField(default=timezone.now, verbose_name='Last Login')
     objects = CustomUserManager()
@@ -49,3 +49,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.name
     def get_short_name(self):
         return self.nickname
+
+class ScrapeSession(models.Model):
+    response  = models.TextField(default='', verbose_name='Response')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name= "User")
+    date = models.DateTimeField(default=timezone.now, verbose_name='Date')
+
+    class Meta:
+        verbose_name = 'Scrape Session'
+        verbose_name_plural = 'Scrape Sessions'

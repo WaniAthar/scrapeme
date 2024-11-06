@@ -15,9 +15,14 @@ class UserAdmin(admin.ModelAdmin):
     )
 
 
-
+class ScrapeSessionAdmin(admin.ModelAdmin):
+    list_display = ('user', 'date')
+    search_fields = ('user', 'date')
+    list_filter = ('user', 'date')
+    ordering = ('user', 'date')
     
 admin.site.register(User, UserAdmin)
+admin.site.register(ScrapeSession, ScrapeSessionAdmin)
 
 admin.site.site_header = 'ScrapeMe Admin'
 admin.site.site_title = 'ScrapeMe Admin'

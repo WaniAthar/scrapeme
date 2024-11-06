@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:scrapeme/views/views.dart';
 
- class Routes {
+class Routes {
   static const String login = '/';
+  static const String splash = '/splash';
   static const String home = '/home';
   static const String setting = '/setting';
   static const String about = '/about';
@@ -12,7 +15,13 @@ import 'package:scrapeme/views/views.dart';
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => LoginScreen(),);
+        return MaterialPageRoute(
+          builder: (_) => const LoginScreen(),
+        );
+      case '/splash':
+        return MaterialPageRoute(
+          builder: (_) => const SplashScreen(),
+        );
       case '/home':
         return MaterialPageRoute(builder: (_) => HomeScreen());
       case '/setting':
@@ -22,18 +31,19 @@ import 'package:scrapeme/views/views.dart';
       case '/profile':
         return MaterialPageRoute(builder: (_) => ProfileScreen());
       case '/signup':
-        return MaterialPageRoute(builder: (_) => SignupScreen());
+        return MaterialPageRoute(builder: (_) => const SignupScreen());
       default:
-        return MaterialPageRoute(builder: (_) => LoginScreen());
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
     }
   }
 
-   static Map<String, WidgetBuilder> get routes => {
+  static Map<String, WidgetBuilder> get routes => {
         '/': (_) => const LoginScreen(),
         '/home': (_) => HomeScreen(),
         '/setting': (_) => SettingsScreen(),
         '/about': (_) => AboutScreen(),
         '/profile': (_) => ProfileScreen(),
-        '/signup': (_) => SignupScreen(),
+        '/signup': (_) => const SignupScreen(),
+        '/splash': (_) => const SplashScreen(),
       };
 }

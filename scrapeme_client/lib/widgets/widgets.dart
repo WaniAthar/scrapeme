@@ -5,3 +5,5 @@ export 'input_field.dart';
 export 'signup_widget.dart';
 export 'footer.dart';
 export 'text_styles.dart';
+export 'recent_scraps.dart';
+export 'example_scraps.dart';

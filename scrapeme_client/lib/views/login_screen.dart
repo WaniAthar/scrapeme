@@ -36,7 +36,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               Container(
                 margin: const EdgeInsets.only(top: 30, right: 30, left: 30),
-                child: const LoginWidget(),
+                child: LoginWidget(),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 30, right: 30, left: 30),

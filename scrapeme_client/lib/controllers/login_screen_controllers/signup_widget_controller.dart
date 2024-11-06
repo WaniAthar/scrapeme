@@ -1,12 +1,28 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:scrapeme/routes/routes.dart';
 
 class SignupPageController extends ChangeNotifier {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final nameController = TextEditingController();
+  final signupFormKey = GlobalKey<FormState>();
+
+  void clearForm() {
+    emailController.clear();
+    passwordController.clear();
+    confirmPasswordController.clear();
+    nameController.clear();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    nameController.dispose();
+  }
 }
 
 final signupPageControllerProvider =
@@ -62,27 +78,3 @@ class SignupValidationProvider extends ChangeNotifier {
 final signupValidationProvider =
     ChangeNotifierProvider<SignupValidationProvider>(
         (ref) => SignupValidationProvider());
-
-class SignupProvider extends ChangeNotifier {
-  final SignupValidationProvider validationProvider;
-
-  SignupProvider(this.validationProvider);
-
-  Future<void> signup(
-      BuildContext context, GlobalKey<FormState> formKey) async {
-    if (formKey.currentState?.validate() ?? false) {
-      formKey.currentState?.save();
-      // Perform signup logic here, e.g., call an API
-      // ...
-      // Navigate to the home screen
-      debugPrint("Signup successful");
-      Navigator.pop(
-          context); // Close the form and get back to the previous screen that is the login screen
-    }
-  }
-}
-
-final signupUserProvider = ChangeNotifierProvider<SignupProvider>((ref) {
-  final validationProvider = ref.watch(signupValidationProvider);
-  return SignupProvider(validationProvider);
-});

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scrapeme/constants/constants.dart';
@@ -7,6 +8,9 @@ class InputField extends ConsumerStatefulWidget {
   const InputField(
       {super.key,
       required this.controller,
+      this.minLines,
+      this.textInputAction,
+      this.maxLines,
       this.isPassword = false,
       this.hintText,
       this.labelText,
@@ -22,10 +26,12 @@ class InputField extends ConsumerStatefulWidget {
       this.autofocus = false});
   final Function()? onEditingComplete;
   final ValueChanged<String>? onFieldSubmitted;
+  final TextInputAction? textInputAction;
   final FormFieldSetter<String>? onSaved;
   final Widget? suffixIcon;
   final bool autofocus, isPassword;
   final String? hintText;
+  final int? minLines, maxLines;
   final String? labelText;
   final IconData? icon;
   final VoidCallback? onTap;
@@ -33,6 +39,7 @@ class InputField extends ConsumerStatefulWidget {
   final FormFieldValidator<String>? validator;
   final TextEditingController controller;
   final TextInputType keyboardType;
+
   @override
   ConsumerState<InputField> createState() => _InputFieldState();
 }
@@ -58,7 +65,9 @@ class _InputFieldState extends ConsumerState<InputField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      key: widget.key,
+      minLines: widget.minLines,
+      maxLines: widget.maxLines,
+      textInputAction: widget.textInputAction?? TextInputAction.done,
       cursorColor: Colours.primaryColor,
       cursorErrorColor: Colours.errorColor,
       style: GoogleFonts.inter(

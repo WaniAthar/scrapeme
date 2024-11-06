@@ -3,22 +3,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scrapeme/constants/constants.dart';
-import 'package:scrapeme/controllers/login_screen_controllers/signup_widget_controller.dart';
+import 'package:scrapeme/controllers/controllers.dart';
+import 'package:scrapeme/routes/routes.dart';
 
 import 'package:scrapeme/widgets/widgets.dart';
 
+import 'toast_notification.dart';
+
 class SignupWidget extends ConsumerWidget {
   SignupWidget({super.key});
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     final validationProvider = ref.watch(signupValidationProvider);
-    final signupProvider = ref.watch(signupUserProvider);
+    final signupController = ref.watch(signupPageControllerProvider);
     return SingleChildScrollView(
       child: Form(
-        key: _formKey,
+        key: signupController.signupFormKey,
         child: Container(
           width: 450,
           decoration: BoxDecoration(
@@ -84,31 +86,58 @@ class SignupWidget extends ConsumerWidget {
                               .passwordController
                               .text),
                   keyboardType: TextInputType.visiblePassword,
-                  // hintText: "Athar123",
                   labelText: "Confirm Password*",
                   isPassword: true),
             ),
-            Container(
-              margin: const EdgeInsets.only(top: 10, right: 40, left: 40),
-              child: InkWell(
-                onTap: () {
-                  signupProvider.signup(context, _formKey);
-                },
-                child: Container(
-                  height: 50,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colours.primaryColor,
-                    borderRadius: BorderRadius.circular(12),
+            ref.watch(authProvider).isSignupLoading
+                ? Center(
+                    child: Container(
+                    margin: const EdgeInsets.only(top: 10, right: 40, left: 40),
+                    child: const CircularProgressIndicator(
+                      color: Colours.primaryColor,
+                    ),
+                  ))
+                : Container(
+                    margin: const EdgeInsets.only(top: 10, right: 40, left: 40),
+                    child: InkWell(
+                      onTap: () async {
+                        if (signupController.signupFormKey.currentState
+                                ?.validate() ??
+                            false) {
+                          signupController.signupFormKey.currentState?.save();
+                          await ref.watch(authProvider.notifier).signup();
+                          if (ref.watch(authProvider).isAuthenticated) {
+                            if (context.mounted) {
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                Routes.home,
+                                (route) => false,
+                              );
+                            }
+
+                            CustomToast.success(
+                                "Success!", "You are now logged in");
+                          }
+                        } else {
+                          CustomToast.error(
+                              "Error!", "Please fill all the fields");
+                        }
+                      },
+                      child: Container(
+                        height: 50,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colours.primaryColor,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Center(
+                          child: Text("Signup",
+                              style: GoogleFonts.inter(
+                                  color: Colours.white,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                    ),
                   ),
-                  child: Center(
-                    child: Text("Signup",
-                        style: GoogleFonts.inter(
-                            color: Colours.white, fontWeight: FontWeight.bold)),
-                  ),
-                ),
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text.rich(TextSpan(
