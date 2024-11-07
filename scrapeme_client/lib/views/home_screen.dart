@@ -128,12 +128,19 @@ class HomeScreen extends ConsumerWidget {
                               )
                             ],
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.06,
-                          ),
-                          const RecentScrapes(),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.06,
+                          // Padding(
+                          //   padding: EdgeInsets.only(
+                          //       top: MediaQuery.of(context).size.height * 0.06,
+                          //       bottom:
+                          //           MediaQuery.of(context).size.height * 0.06),
+                          //   child: const RecentScrapes(),
+                          // ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.06,
+                                bottom:
+                                    MediaQuery.of(context).size.height * 0.06),
+                            child: const ExampleScrapes(),
                           ),
                         ],
                       ));
