@@ -27,16 +27,90 @@ class HomeScreen extends ConsumerWidget {
       backgroundColor: Colours.backgroundColor,
       drawer: Drawer(
         backgroundColor: Colours.backgroundColor,
-        child: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: profileWidget(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: ListView(
+            children: [
+              profileWidget(
                 Scrapeme.user?.email ?? "Loading...",
                 MediaQuery.of(context).size,
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20, top: 30),
+                child: TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colours.secondaryColor.withOpacity(0.2),
+                    ),
+                    onPressed: () {},
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.add_box_rounded,
+                              color: Colours.primaryColor,
+                              size: 22,
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              "Start a new crawl",
+                              style: GoogleFonts.poppins(
+                                color: Colours.primaryColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Text(
+                  "Recents",
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    color: Colours.primaryColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              const RecentDrawerScrapes(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton.icon(
+                    iconAlignment: IconAlignment.end,
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.arrow_forward_rounded,
+                      size: 14,
+                      color: Colours.primaryColor,
+                    ),
+                    label: Text(
+                      "View all",
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        color: Colours.primaryColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colours.secondaryColor.withOpacity(0.2),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
       appBar: AppBar(
@@ -140,7 +214,7 @@ class HomeScreen extends ConsumerWidget {
                                 top: MediaQuery.of(context).size.height * 0.06,
                                 bottom:
                                     MediaQuery.of(context).size.height * 0.06),
-                            child: const ExampleScrapes(),
+                            child: ExampleScrapes(),
                           ),
                         ],
                       ));
@@ -329,6 +403,27 @@ class HomeScreen extends ConsumerWidget {
                     fontWeight: FontWeight.w600,
                     color: Colours.primaryColor)),
           )),
+    );
+  }
+}
+
+class RecentDrawerScrapes extends StatelessWidget {
+  const RecentDrawerScrapes({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: 5,
+      itemBuilder: (BuildContext context, int index) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: RecentScrapesDrawerContainer(
+            onTap: () {},
+            title: "Example scrape #$index",
+          ),
+        );
+      },
     );
   }
 }

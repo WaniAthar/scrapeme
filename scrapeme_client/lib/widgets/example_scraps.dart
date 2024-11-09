@@ -6,7 +6,25 @@ import 'package:scrapeme/controllers/controllers.dart';
 import '../constants/constants.dart';
 
 class ExampleScrapes extends ConsumerWidget {
-  const ExampleScrapes({super.key});
+  ExampleScrapes({super.key});
+
+  final List<Map<String, String>> exampleScrapes = [
+    {
+      "title": "News Healines summary under 30 words",
+      "prompt":
+          "Can you scrape the web page https://theguardian.com and return the news headlines along with their respective story summaries (under 40 words each) in a tabular format? Each row should contain the headline in one column and the summary in the other.",
+    },
+    {
+      "title": "Today's cricket matches and results",
+      "prompt":
+          "Go to https://cricbuzz.com and tell what matches are happening today, going on and completed and tell me who won. ",
+    },
+    {
+      "title": "Headphone price prediction",
+      "prompt":
+          "pricehistory.app/p/skullcandy-hesh-anc-bluetooth-wireless-over-ear-qgk9hoSj do the analysis and prediction on this page and tell me whether the price is going to be up or down",
+    }
+  ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,10 +38,10 @@ class ExampleScrapes extends ConsumerWidget {
                 color: Colours.primaryColor,
                 fontWeight: FontWeight.w600)),
         const SizedBox(
-          height: 10,
+          height: 15,
         ),
         Text(
-          "You can try one of these exmaple crawls",
+          "You can try one of these exmaples",
           style: GoogleFonts.poppins(
             fontSize: 20,
             color: Colours.primaryColor,
@@ -44,8 +62,9 @@ class ExampleScrapes extends ConsumerWidget {
                     child: ExampleScrapeContainer(
                       onTap: () {
                         promptTextController.text =
-                            "Can you scrape the web page https://theguardian.com and return the news headlines along with their respective story summaries (under 40 words each) in a tabular format? Each row should contain the headline in one column and the summary in the other.";
+                            exampleScrapes[index]["prompt"]!;
                       },
+                      title: exampleScrapes[index]["title"]!,
                     ),
                   );
                 });
@@ -56,13 +75,15 @@ class ExampleScrapes extends ConsumerWidget {
                   crossAxisCount: 3,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
-                  childAspectRatio: 3 / 2),
+                  childAspectRatio: 3 / 1.5),
               itemCount: 3,
               itemBuilder: (BuildContext context, int index) {
-                return ExampleScrapeContainer(onTap: () {
-                  promptTextController.text =
-                      "Can you scrape the web page https://theguardian.com and return the news headlines along with their respective story summaries (under 40 words each) in a tabular format? Each row should contain the headline in one column and the summary in the other.";
-                });
+                return ExampleScrapeContainer(
+                    onTap: () {
+                      promptTextController.text =
+                          exampleScrapes[index]["prompt"]!;
+                    },
+                    title: exampleScrapes[index]["title"]!);
               });
         })
       ],
@@ -71,8 +92,16 @@ class ExampleScrapes extends ConsumerWidget {
 }
 
 class ExampleScrapeContainer extends StatelessWidget {
-  const ExampleScrapeContainer({super.key, required this.onTap});
+  const ExampleScrapeContainer({
+    super.key,
+    required this.onTap,
+    required this.title,
+    this.icon,
+  });
+
   final Function() onTap;
+  final String title;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -85,28 +114,38 @@ class ExampleScrapeContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           decoration: BoxDecoration(
             border: Border.all(color: Colours.secondaryColor, width: 0.8),
             borderRadius: BorderRadius.circular(16),
           ),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Icon(
-              Icons.animation_rounded,
-              size: 16,
-              color: Colours.primaryColor,
-            ),
-            const SizedBox(
-              height: 7,
-            ),
-            Text("Crawl this web page and return the data in tabular format",
-                style: GoogleFonts.ebGaramond(
-                  fontSize: 16,
-                  color: Colours.primaryColor,
-                  fontWeight: FontWeight.w500,
-                )),
-          ]),
+          child: Column(
+            mainAxisSize: MainAxisSize.min, // Add this
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                icon ?? Icons.animation_rounded,
+                size: 16,
+                color: Colours.primaryColor,
+              ),
+              const SizedBox(
+                height: 7,
+              ),
+              Flexible(
+                // Wrap the Text in Flexible
+                child: Text(
+                  title,
+                  style: GoogleFonts.ebGaramond(
+                    fontSize: 16,
+                    color: Colours.primaryColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  overflow: TextOverflow.ellipsis, // Add this
+                  maxLines: 2, // Add this if you want to show max 2 lines
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
