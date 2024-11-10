@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:popover/popover.dart';
 import 'package:scrapeme/constants/constants.dart';
+import 'package:scrapeme/routes/routes.dart';
 import 'package:scrapeme/utils/scrapeme.dart';
 import 'package:scrapeme/widgets/widgets.dart';
 
@@ -25,90 +28,117 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: Colours.backgroundColor,
+      drawerScrimColor: Colors.transparent,
       drawer: Drawer(
-        backgroundColor: Colours.backgroundColor,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: ListView(
+        elevation: 1,
+        backgroundColor: Colors.transparent,
+        child: ClipRRect(
+          child: Stack(
             children: [
-              profileWidget(
-                Scrapeme.user?.email ?? "Loading...",
-                MediaQuery.of(context).size,
+              // Container(
+              //   decoration: BoxDecoration(
+              //     color: Colours.backgroundColor.withOpacity(0.8),
+              //   ),
+              // ),
+              BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 10,
+                  sigmaY: 10,
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colours.secondarybackgroundColor.withOpacity(0.4),
+                  ),
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 20, top: 30),
-                child: TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colours.secondaryColor.withOpacity(0.2),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: ListView(
+                  children: [
+                    profileWidget(
+                      Scrapeme.user?.email ?? "Loading...",
+                      MediaQuery.of(context).size,
                     ),
-                    onPressed: () {},
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.add_box_rounded,
-                              color: Colours.primaryColor,
-                              size: 22,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              "Start a new crawl",
-                              style: GoogleFonts.poppins(
-                                color: Colours.primaryColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20, top: 30),
+                      child: TextButton(
+                          style: TextButton.styleFrom(
+                            backgroundColor:
+                                Colours.secondaryColor.withOpacity(0.2),
+                          ),
+                          onPressed: () {},
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.add_box_rounded,
+                                    color: Colours.primaryColor,
+                                    size: 22,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    "Start a new crawl",
+                                    style: GoogleFonts.poppins(
+                                      color: Colours.primaryColor,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Text(
+                        "Recents",
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          color: Colours.primaryColor,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                    )),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Text(
-                  "Recents",
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    color: Colours.primaryColor,
-                    fontWeight: FontWeight.w600,
-                  ),
+                    ),
+                    const RecentDrawerScrapes(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton.icon(
+                          iconAlignment: IconAlignment.end,
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.arrow_forward_rounded,
+                            size: 14,
+                            color: Colours.primaryColor,
+                          ),
+                          label: Text(
+                            "View all",
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              color: Colours.primaryColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          style: TextButton.styleFrom(
+                            backgroundColor:
+                                Colours.secondaryColor.withOpacity(0.2),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
-              const RecentDrawerScrapes(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextButton.icon(
-                    iconAlignment: IconAlignment.end,
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.arrow_forward_rounded,
-                      size: 14,
-                      color: Colours.primaryColor,
-                    ),
-                    label: Text(
-                      "View all",
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        color: Colours.primaryColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colours.secondaryColor.withOpacity(0.2),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
         ),
@@ -316,8 +346,10 @@ class HomeScreen extends ConsumerWidget {
                         color: Colours.primaryColor.withOpacity(0.2),
                         thickness: 1,
                       ),
-                      popMenuItem("Profile", () {}),
-                      popMenuItem("Settings", () {}),
+                      // popMenuItem("Profile", () {}),
+                      popMenuItem("Settings", () {
+                        Navigator.pushNamed(context, Routes.setting);
+                      }),
                       Divider(
                         color: Colours.primaryColor.withOpacity(0.2),
                         thickness: 1,

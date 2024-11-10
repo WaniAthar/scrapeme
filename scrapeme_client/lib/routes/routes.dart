@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:scrapeme/views/views.dart';
 
@@ -23,9 +21,9 @@ class Routes {
           builder: (_) => const SplashScreen(),
         );
       case '/home':
-        return MaterialPageRoute(builder: (_) => HomeScreen());
+        return MaterialPageRoute(builder: (_) => const HomeScreen());
       case '/setting':
-        return MaterialPageRoute(builder: (_) => SettingsScreen());
+        return MaterialPageRoute(builder: (_) => const SettingsScreen());
       case '/about':
         return MaterialPageRoute(builder: (_) => AboutScreen());
       case '/profile':
@@ -39,8 +37,8 @@ class Routes {
 
   static Map<String, WidgetBuilder> get routes => {
         '/': (_) => const LoginScreen(),
-        '/home': (_) => HomeScreen(),
-        '/setting': (_) => SettingsScreen(),
+        '/home': (_) => const HomeScreen(),
+        '/setting': (_) => const SettingsScreen(),
         '/about': (_) => AboutScreen(),
         '/profile': (_) => ProfileScreen(),
         '/signup': (_) => const SignupScreen(),
