@@ -17,6 +17,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawerScrimColor: Colors.transparent,
+      drawer: const KDrawer(),
       backgroundColor: Colours.backgroundColor,
       appBar: AppBar(
         title: Row(
@@ -40,50 +42,53 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
         ),
       ),
-      body: Row(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(
-              left: MediaQuery.of(context).size.width * 0.15,
-              top: MediaQuery.of(context).size.height * 0.05,
-              right: 40,
+      body: Padding(
+        padding: EdgeInsets.only(
+          left: MediaQuery.of(context).size.width * 0.12,
+          right: MediaQuery.of(context).size.width * 0.12,
+          top: MediaQuery.of(context).size.height * 0.05,
+          bottom: MediaQuery.of(context).size.height * 0.05,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: 220,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ButtonTab(
+                    title: "Profile",
+                    isSelected: selectedIndex == 0,
+                    onTap: () {
+                      setState(() {
+                        selectedIndex = 0;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  ButtonTab(
+                    title: "Account",
+                    isSelected: selectedIndex == 1,
+                    onTap: () {
+                      setState(() {
+                        selectedIndex = 1;
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
-            child: Column(
-              children: [
-                ButtonTab(
-                  title: "Profile",
-                  isSelected: selectedIndex == 0,
-                  onTap: () {
-                    setState(() {
-                      selectedIndex = 0;
-                    });
-                  },
-                ),
-                const SizedBox(height: 8),
-                ButtonTab(
-                  title: "Account",
-                  isSelected: selectedIndex == 1,
-                  onTap: () {
-                    setState(() {
-                      selectedIndex = 1;
-                    });
-                  },
-                ),
-              ],
+            const SizedBox(
+              width: 40,
             ),
-          ),
-          // Padding(
-          //   padding: const EdgeInsets.only(right: 40),
-          //   child: Column(
-          //     children: [
-          //       if (selectedIndex == 0)
-          //         const ProfileTab()
-          //       else
-          //         const AccountTab(), 
-          //     ],
-          //   ),
-          // ),
-        ],
+            Expanded(
+              child:
+                  selectedIndex == 0 ? const ProfileTab() : const AccountTab(),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -94,33 +99,77 @@ class ProfileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colours.secondaryColor, width: 0.8),
-            borderRadius: BorderRadius.circular(16),
-            color: Colours.tertiaryColor.withOpacity(0.07),
-          ),
-          child: Column(
-            children: [
-              InputField(
-                hintText: "yourname@yourCompany.com",
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Name is required';
-                  }
-                  return null;
-                },
-                controller: TextEditingController(),
-                keyboardType: TextInputType.text,
-                onChanged: (value) {},
-                onFieldSubmitted: (value) {},
-              ),
-            ],
-          ),
+    return SingleChildScrollView(
+      child: Container(
+        // constraints: const BoxConstraints(maxWidth: 600),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colours.secondaryColor, width: 0.8),
+          borderRadius: BorderRadius.circular(16),
+          color: Colours.tertiaryColor.withOpacity(0.07),
         ),
-      ],
+        padding: const EdgeInsets.all(30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Text(
+                "Full name",
+                style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colours.primaryColor),
+              ),
+            ),
+            InputField(
+              hintText: "Athar",
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Name is required';
+                }
+                return null;
+              },
+              controller: TextEditingController(text: "Athar Wani"),
+              keyboardType: TextInputType.text,
+              onChanged: (value) {},
+              onFieldSubmitted: (value) {},
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0, top: 16.0),
+              child: Text(
+                "What should we call you?",
+                style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colours.primaryColor),
+              ),
+            ),
+            InputField(
+              hintText: "Athar",
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Nickname is required';
+                }
+                return null;
+              },
+              controller: TextEditingController(text: "Athar"),
+              keyboardType: TextInputType.text,
+              onChanged: (value) {},
+              onFieldSubmitted: (value) {},
+            ),
+            const Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: EdgeInsets.only(top: 18.0),
+                child: KPrimaryButton(
+                  title: "Update Name",
+                  onPressed: null,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -165,17 +214,84 @@ class ButtonTab extends StatelessWidget {
   }
 }
 
-// Placeholder widget for AccountTab
 class AccountTab extends StatelessWidget {
   const AccountTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text("Account Settings"),
-        // Add more widgets as needed
-      ],
+    return SingleChildScrollView(
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 600),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colours.secondaryColor, width: 0.8),
+          borderRadius: BorderRadius.circular(16),
+          color: Colours.tertiaryColor.withOpacity(0.07),
+        ),
+        padding: const EdgeInsets.all(30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Text(
+                "Account",
+                style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colours.primaryColor),
+              ),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Export data",
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colours.primaryColor,
+                  ),
+                ),
+                KSecondaryButton(
+                  title: "Export Data",
+                  onPressed: () {},
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Divider(
+              color: Colours.primaryColor.withOpacity(0.2),
+              thickness: 1,
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Delete account",
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colours.primaryColor,
+                  ),
+                ),
+                KPrimaryButton(
+                  title: "Delete Account",
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

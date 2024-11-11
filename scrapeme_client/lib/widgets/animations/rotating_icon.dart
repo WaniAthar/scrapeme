@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 class RotatingIcon extends StatefulWidget {
   const RotatingIcon(
       {super.key,
-      required this.icon,
+      this.icon,
       this.size = 20,
       this.color,
       this.duration = const Duration(seconds: 2)});
 
-  final IconData icon;
+  final IconData? icon;
   final double size;
   final Color? color;
   final Duration duration;
@@ -40,7 +40,6 @@ class _RotatingIconState extends State<RotatingIcon>
   void dispose() {
     super.dispose();
     _controller.dispose();
-    
   }
 
   @override
@@ -50,7 +49,7 @@ class _RotatingIconState extends State<RotatingIcon>
       builder: (context, child) => Transform.rotate(
         angle: _animation.value,
         child: Icon(
-          Icons.settings,
+          widget.icon ?? Icons.settings,
           size: widget.size,
           color: widget.color,
         ),

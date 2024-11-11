@@ -8,3 +8,5 @@ export 'text_styles.dart';
 export 'recent_scraps.dart';
 export 'example_scraps.dart';
 export 'animations/rotating_icon.dart';
+export 'button.dart';
+export 'drawer.dart';
