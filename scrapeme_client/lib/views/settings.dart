@@ -285,7 +285,39 @@ class AccountTab extends StatelessWidget {
                 ),
                 KPrimaryButton(
                   title: "Delete Account",
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            backgroundColor: Colours.backgroundColor,
+                            title: Text("Delete account",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colours.primaryColor,
+                                )),
+                            content: Text(
+                              "Deleting your account is permanent. You will have no way of recovering your account or scraped data.",
+                              style: GoogleFonts.poppins(),
+                            ),
+                            actions: [
+                              KSecondaryButton(
+                                title: "Cancel",
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              KPrimaryButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                title: "I Understand",
+                              ),
+                            ],
+                          );
+                        });
+                  },
                 ),
               ],
             ),

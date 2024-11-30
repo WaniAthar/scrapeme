@@ -8,6 +8,8 @@ class InputField extends ConsumerStatefulWidget {
   const InputField(
       {super.key,
       required this.controller,
+      this.leadingWidget,
+      this.leadingIcon,
       this.minLines,
       this.textInputAction,
       this.maxLines,
@@ -28,7 +30,7 @@ class InputField extends ConsumerStatefulWidget {
   final ValueChanged<String>? onFieldSubmitted;
   final TextInputAction? textInputAction;
   final FormFieldSetter<String>? onSaved;
-  final Widget? suffixIcon;
+  final Widget? suffixIcon, leadingWidget, leadingIcon;
   final bool autofocus, isPassword;
   final String? hintText;
   final int? minLines, maxLines;
@@ -67,7 +69,7 @@ class _InputFieldState extends ConsumerState<InputField> {
     return TextFormField(
       minLines: widget.minLines,
       maxLines: widget.maxLines,
-      textInputAction: widget.textInputAction?? TextInputAction.done,
+      textInputAction: widget.textInputAction ?? TextInputAction.done,
       cursorColor: Colours.primaryColor,
       cursorErrorColor: Colours.errorColor,
       style: GoogleFonts.inter(
@@ -78,6 +80,8 @@ class _InputFieldState extends ConsumerState<InputField> {
       validator: widget.validator,
       keyboardType: widget.keyboardType,
       decoration: InputDecoration(
+        prefix: widget.leadingWidget,
+        prefixIcon: widget.leadingIcon,
         labelStyle: GoogleFonts.inter(
             color: Colours.primaryColor, fontWeight: FontWeight.w500),
         // contentPadding: ,

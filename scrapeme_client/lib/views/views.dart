@@ -5,3 +5,5 @@ export 'profile_screen.dart';
 export 'signup_screen.dart';
 export 'splash_screen.dart';
 export 'settings.dart';
+export 'scrape_history.dart';
+export 'result_screen.dart';

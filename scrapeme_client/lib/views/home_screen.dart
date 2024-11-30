@@ -7,8 +7,9 @@ import 'package:popover/popover.dart';
 import 'package:scrapeme/constants/constants.dart';
 import 'package:scrapeme/routes/routes.dart';
 import 'package:scrapeme/utils/scrapeme.dart';
+import 'package:scrapeme/widgets/toast_notification.dart';
 import 'package:scrapeme/widgets/widgets.dart';
-
+import 'dart:math' as math;
 import '../controllers/controllers.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -21,6 +22,7 @@ class HomeScreen extends ConsumerWidget {
     var userState = ref.watch(userProvider);
     var userStateNotifier = ref.watch(userProvider.notifier);
     var promptTextController = ref.watch(promptTextControllerProvider);
+    var userPromptFormKey = ref.watch(userPromptFormKeyProvider);
 
     if (userState.asData == null) {
       userStateNotifier.getUserProfile();
@@ -72,62 +74,81 @@ class HomeScreen extends ConsumerWidget {
                     width = screenWidth * 0.4;
                   }
 
-                  return SizedBox(
-                      width: width,
-                      child: Column(
-                        children: [
-                          Stack(
+                  return Hero(
+                    tag: "hero",
+                    child: Form(
+                      key: userPromptFormKey,
+                      child: SizedBox(
+                          width: width,
+                          child: Column(
                             children: [
-                              InputField(
-                                hintText: "How can i help you today?",
-                                maxLines: 10,
-                                minLines: 3,
-                                controller: promptTextController,
-                                keyboardType: TextInputType.multiline,
-                                textInputAction: TextInputAction.newline,
-                                suffixIcon: const SizedBox(
-                                  width: 40,
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.bottomRight,
-                                child: Container(
-                                  margin: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: Colours.primaryColor,
-                                    borderRadius: BorderRadius.circular(12),
+                              Stack(
+                                children: [
+                                  InputField(
+                                    hintText: "How can i help you today?",
+                                    maxLines: 10,
+                                    minLines: 3,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Please enter a prompt";
+                                      }
+                                      return null;
+                                    },
+                                    controller: promptTextController,
+                                    keyboardType: TextInputType.multiline,
+                                    textInputAction: TextInputAction.newline,
+                                    suffixIcon: const SizedBox(
+                                      width: 40,
+                                    ),
                                   ),
-                                  child: InkWell(
-                                      hoverColor: Colours.white,
-                                      onTap: () {},
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Icon(
-                                          size: 18,
-                                          Icons.arrow_upward_rounded,
-                                          color: Colours.white,
-                                        ),
-                                      )),
-                                ),
-                              )
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Container(
+                                      margin: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: Colours.primaryColor,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: InkWell(
+                                          hoverColor: Colours.white,
+                                          onTap: () {
+                                            userPromptFormKey.currentState!
+                                                    .validate()
+                                                ? Navigator.of(context)
+                                                    .pushNamed(Routes.result)
+                                                : null;
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              size: 18,
+                                              Icons.arrow_upward_rounded,
+                                              color: Colours.white,
+                                            ),
+                                          )),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              // Padding(
+                              //   padding: EdgeInsets.only(
+                              //       top: MediaQuery.of(context).size.height * 0.06,
+                              //       bottom:
+                              //           MediaQuery.of(context).size.height * 0.06),
+                              //   child: const RecentScrapes(),
+                              // ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.height *
+                                        0.06,
+                                    bottom: MediaQuery.of(context).size.height *
+                                        0.06),
+                                child: ExampleScrapes(),
+                              ),
                             ],
-                          ),
-                          // Padding(
-                          //   padding: EdgeInsets.only(
-                          //       top: MediaQuery.of(context).size.height * 0.06,
-                          //       bottom:
-                          //           MediaQuery.of(context).size.height * 0.06),
-                          //   child: const RecentScrapes(),
-                          // ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.06,
-                                bottom:
-                                    MediaQuery.of(context).size.height * 0.06),
-                            child: ExampleScrapes(),
-                          ),
-                        ],
-                      ));
+                          )),
+                    ),
+                  );
                 },
               ),
             ],

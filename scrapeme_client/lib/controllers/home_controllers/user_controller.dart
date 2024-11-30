@@ -38,6 +38,10 @@ final promptTextControllerProvider = StateProvider<TextEditingController>((ref) 
   return TextEditingController();
 });
 
+final userPromptFormKeyProvider = StateProvider<GlobalKey<FormState>>((ref) {
+  return GlobalKey<FormState>();
+});
+
 final userProvider = StateNotifierProvider<UserController, AsyncValue<User>>(
   (ref) {
     final cacheService = ref.watch(cacheServiceProvider);

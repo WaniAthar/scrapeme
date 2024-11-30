@@ -97,6 +97,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.5"
+  csslib:
+    dependency: transitive
+    description:
+      name: csslib
+      sha256: "09bad715f418841f976c77db72d5398dc1253c21fb9c0c7f0b0b985860b2d58e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -174,14 +182,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.1"
+  flutter_shaders:
+    dependency: transitive
+    description:
+      name: flutter_shaders
+      sha256: "34794acadd8275d971e02df03afee3dee0f98dbfb8c4837082ad0034f612a3e2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.3"
   flutter_svg:
     dependency: "direct main"
     description:
       name: flutter_svg
-      sha256: "7b4ca6cf3304575fe9c8ec64813c8d02ee41d2afe60bcfe0678bcb5375d596a2"
+      sha256: "54900a1a1243f3c4a5506d853a2b5c2dbc38d5f27e52a52618a8054401431123"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.10+1"
+    version: "2.0.16"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -280,6 +296,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  html:
+    dependency: "direct main"
+    description:
+      name: html
+      sha256: "1fc58edeaec4307368c60d59b7e15b9d658b57d7f3125098b6294153c75337ec"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.15.5"
   http:
     dependency: "direct main"
     description:
@@ -376,6 +400,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.11.1"
+  mesh_gradient:
+    dependency: "direct main"
+    description:
+      name: mesh_gradient
+      sha256: "3dc7a7195d90f164e69aa805f4dea876eee54aed6b271ee22ae792d7b9c1fedb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.8"
   meta:
     dependency: transitive
     description:
@@ -412,10 +444,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider
-      sha256: fec0d61223fba3154d87759e3cc27fe2c8dc498f6386c6d6fc80d1afdd1bf378
+      sha256: "50c5dd5b6e1aaf6fb3a78b33f6aa3afca52bf903a8a5298f53101fdaee55bbcd"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.4"
+    version: "2.1.5"
   path_provider_android:
     dependency: transitive
     description:
@@ -568,6 +600,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.1"
+  shimmer:
+    dependency: "direct main"
+    description:
+      name: shimmer
+      sha256: "5f88c883a22e9f9f299e5ba0e4f7e6054857224976a5d9f839d4ebdc94a14ac9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -681,10 +721,10 @@ packages:
     dependency: transitive
     description:
       name: vector_graphics
-      sha256: "32c3c684e02f9bc0afb0ae0aa653337a2fe022e8ab064bcd7ffda27a74e288e3"
+      sha256: "27d5fefe86fb9aace4a9f8375b56b3c292b64d8c04510df230f849850d912cb7"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.11+1"
+    version: "1.1.15"
   vector_graphics_codec:
     dependency: transitive
     description:
@@ -697,10 +737,10 @@ packages:
     dependency: transitive
     description:
       name: vector_graphics_compiler
-      sha256: "12faff3f73b1741a36ca7e31b292ddeb629af819ca9efe9953b70bd63fc8cd81"
+      sha256: "1b4b9e706a10294258727674a340ae0d6e64a7231980f9f9a3d12e4b42407aad"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.11+1"
+    version: "1.1.16"
   vector_math:
     dependency: transitive
     description:

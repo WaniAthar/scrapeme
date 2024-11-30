@@ -20,11 +20,7 @@ class KDrawer extends StatelessWidget {
       child: ClipRRect(
         child: Stack(
           children: [
-            // Container(
-            //   decoration: BoxDecoration(
-            //     color: Colours.backgroundColor.withOpacity(0.8),
-            //   ),
-            // ),
+        
             BackdropFilter(
               filter: ImageFilter.blur(
                 sigmaX: 10,
@@ -104,10 +100,12 @@ class KDrawer extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: TextButton.icon(
                         iconAlignment: IconAlignment.end,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(Routes.history);
+                        },
                         icon: const Icon(
                           Icons.arrow_forward_rounded,
-                          size: 14,
+                          size: 10,
                           color: Colours.primaryColor,
                         ),
                         label: Text(

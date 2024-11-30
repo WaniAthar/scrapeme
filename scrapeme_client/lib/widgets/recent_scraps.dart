@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scrapeme/constants/constants.dart';
+import 'package:scrapeme/routes/routes.dart';
 
 class RecentScrapes extends ConsumerWidget {
   const RecentScrapes({super.key});
@@ -30,7 +31,9 @@ class RecentScrapes extends ConsumerWidget {
             ),
             const Spacer(),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed(Routes.history);
+              },
               child: SizedBox(
                 child: Row(
                   children: [

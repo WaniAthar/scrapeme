@@ -9,6 +9,9 @@ class Routes {
   static const String about = '/about';
   static const String profile = '/profile';
   static const String signup = '/signup';
+  static const String history = '/history';
+  static const String result = '/result';
+  static const String recent = '/recent';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -26,10 +29,14 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const SettingsScreen());
       case '/about':
         return MaterialPageRoute(builder: (_) => AboutScreen());
+      case '/result':
+        return MaterialPageRoute(builder: (_) => const ResultScreen());
       case '/profile':
         return MaterialPageRoute(builder: (_) => ProfileScreen());
       case '/signup':
         return MaterialPageRoute(builder: (_) => const SignupScreen());
+      case '/history':
+        return MaterialPageRoute(builder: (_) => const ScrapeHistory());
       default:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
     }
